@@ -25,21 +25,40 @@ namespace expression.tests
         {
             resolver = new ExpressionResolver("1");
 
-            Assert.Equal(1, resolver.OperandsStack.Count);
             Assert.Collection(resolver.OperandsStack,
-                x => Assert.IsType<ConstExpression>(x));
+                x => Assert.Equal("1", x));
         }
 
         [Fact]
-        public void OnePlusOneTest()
+        public void AnotherConstTest()
         {
-            resolver = new ExpressionResolver("1 + 1");
+            resolver = new ExpressionResolver("2");
 
-            Assert.Equal(3, resolver.OperandsStack.Count);
             Assert.Collection(resolver.OperandsStack,
-                x => Assert.IsType<ConstExpression>(x),
-                x => Assert.IsType<AdditionExpression>(x),
-                x => Assert.IsType<ConstExpression>(x));
+                x => Assert.Equal("2", x));
         }
+
+        [Fact]
+        public void MultiConstTest()
+        {
+            resolver = new ExpressionResolver("1 2 3");
+
+            Assert.Collection(resolver.OperandsStack,
+                x => Assert.Equal("3", x),
+                x => Assert.Equal("2", x),
+                x => Assert.Equal("1", x));
+        }
+
+        // [Fact]
+        // public void OnePlusOneTest()
+        // {
+        //     resolver = new ExpressionResolver("1 + 1");
+
+        //     Assert.Equal(3, resolver.OperandsStack.Count);
+        //     Assert.Collection(resolver.OperandsStack,
+        //         x => Assert.Equal("1", x),
+        //         x => Assert.Equal("+", x),
+        //         x => Assert.Equal("1", x));
+        // }
     }
 }
